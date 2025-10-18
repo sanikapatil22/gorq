@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
-
-// Configure Cloudinary using environment variables
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import { cloudinary, validateCloudinaryConfig } from "@/lib/cloudinary";
 
 export async function POST(req: NextRequest) {
   try {
+    // Validate Cloudinary configuration
+    validateCloudinaryConfig();
+    
     const formData = await req.formData();
     const file = formData.get("file") as File;
 

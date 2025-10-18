@@ -2,7 +2,28 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### 1. Environment Setup
+
+First, copy the `.env.example` file to `.env.local` and fill in your API credentials:
+
+```bash
+cp .env.example .env.local
+```
+
+Then edit `.env.local` with your credentials:
+
+- **Cloudinary**: Sign up at [https://cloudinary.com/](https://cloudinary.com/) and get your credentials from the [console](https://console.cloudinary.com/)
+- **Groq**: Get your API key from [https://console.groq.com/](https://console.groq.com/)
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Run the Development Server
+
+Run the development server:
 
 ```bash
 npm run dev

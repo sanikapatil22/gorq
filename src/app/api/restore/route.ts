@@ -1,17 +1,13 @@
 // src/app/api/restore/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
+import { cloudinary, validateCloudinaryConfig } from "@/lib/cloudinary";
 import Groq from "groq-sdk";
-
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 export const POST = async (req: NextRequest) => {
   try {
+    // Validate Cloudinary configuration
+    validateCloudinaryConfig();
+    
     // Configure Groq inside the handler
     const groq = new Groq({
       apiKey: process.env.GROQ_API_KEY,

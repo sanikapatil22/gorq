@@ -1,5 +1,26 @@
 import { v2 as cloudinary } from "cloudinary";
 
+// Validate that required Cloudinary environment variables are set
+export const validateCloudinaryConfig = () => {
+  const requiredVars = {
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  };
+
+  const missingVars = Object.entries(requiredVars)
+    .filter(([, value]) => !value)
+    .map(([key]) => key);
+
+  if (missingVars.length > 0) {
+    throw new Error(
+      `Missing required Cloudinary environment variables: ${missingVars.join(", ")}. ` +
+      `Please set these variables in your .env.local file.`
+    );
+  }
+};
+
+// Configure Cloudinary (will be validated when actually used)
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -7,7 +28,12 @@ cloudinary.config({
   secure: true,
 });
 
+export { cloudinary };
+
 export const uploadToCloudinary = async (file: Blob | File) => {
+  // Validate configuration before attempting upload
+  validateCloudinaryConfig();
+  
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
