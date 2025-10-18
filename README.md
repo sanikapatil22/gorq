@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Features
+
+### 🏺 Antique Image Restoration
+Upload old, rusted, or broken antique item images and get AI-powered restoration analysis and enhanced images. The feature uses Groq AI's vision and text models to analyze antiques and provide restoration guidance. [Learn more](ANTIQUE_RESTORATION_FEATURE.md)
+
 ## Getting Started
 
 First, run the development server:
