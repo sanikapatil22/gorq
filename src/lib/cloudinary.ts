@@ -11,19 +11,15 @@ export const uploadToCloudinary = async (file: Blob | File) => {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
-  const result = await cloudinary.uploader.upload_stream({
-    resource_type: "image",
-    folder: "restored_images",
-  }, (error, result) => {
-    if (error) throw error;
-    return result;
-  });
-
   const streamPromise = new Promise<string>((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream((error, result) => {
-      if (error) return reject(error);
-      resolve(result?.secure_url!);
-    });
+    const stream = cloudinary.uploader.upload_stream(
+      { resource_type: "image", folder: "restored_images" },
+      (error, result) => {
+        if (error) return reject(error);
+        if (!result?.secure_url) return reject(new Error("Upload failed"));
+        resolve(result.secure_url);
+      }
+    );
     stream.end(buffer);
   });
 
