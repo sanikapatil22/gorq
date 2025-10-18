@@ -19,14 +19,6 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const result = await cloudinary.uploader.upload_stream(
-      { folder: "restores" },
-      (error, result) => {
-        if (error || !result) throw error || new Error("Upload failed");
-        return result;
-      }
-    );
-
     // Use a Promise wrapper for upload_stream
     const uploadResult = await new Promise<{ secure_url: string }>((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream({ folder: "restores" }, (err, res) => {
